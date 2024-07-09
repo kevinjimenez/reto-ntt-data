@@ -10,17 +10,33 @@
 	<h1>Formulario de registro</h1>
 	<hr style="width: 50%" />
 	<form
+		[formGroup]="registerForm"
+		(ngSubmit)="onSubmit()"
 		style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; width: 50%"
 	>
-		<app-input label="Logo" style="width: 100%" />
-		<app-input label="Nombre del producto" style="width: 100%" />
-		<app-input label="Descripción" style="width: 100%" />
-		<app-input label="Fecha de liberación" style="width: 100%" />
-		<app-input label="Fecha de reestructuración" style="width: 100%" />
-		<app-input label="Fecha de reestructuración" style="width: 100%" />
+		<app-input label="ID" style="width: 100%" [control]="registerForm.controls.id" />
+		<app-input label="Nombre" style="width: 100%" [control]="registerForm.controls.name" />
+		<app-input
+			label="Descripción"
+			style="width: 100%"
+			[control]="registerForm.controls.description"
+		/>
+		<app-input label="Logo" style="width: 100%" [control]="registerForm.controls.logo" />
+		<app-input
+			label="Fecha Liberación"
+			style="width: 100%"
+			[control]="registerForm.controls.date_release"
+			inputType="date"
+		/>
+		<app-input
+			label="Fecha Revisión"
+			style="width: 100%"
+			[control]="registerForm.controls.date_revision"
+			inputType="date"
+		/>
 	</form>
 	<section style="display: flex; justify-content: center; align-items: center; gap: 5rem">
-		<app-button label="Reiniciar" style="width: 100%" />
-		<app-button label="Enviar" style="width: 100%" />
+		<app-button label="Reiniciar" style="width: 100%" (onClick)="onReset()" />
+		<app-button label="Enviar" style="width: 100%" (onClick)="onSubmit()" />
 	</section>
 </main>

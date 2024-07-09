@@ -11,7 +11,7 @@ import { CustomValiationForm } from '../../../utils/custom-validation-form';
 })
 export class InputComponent {
 	// @Input() inputType: 'text' | 'number' = 'text';
-	public inputType = input<'text' | 'number'>('text');
+	public inputType = input<'text' | 'number' | 'date'>('text');
 	// @Input() placeholder: string = 'Search';
 	public placeholder = input<string>('Search');
 	public label = input<string>();
@@ -24,6 +24,8 @@ export class InputComponent {
 
 	protected get errorMessage(): string | null {
 		if (!this.control() && !this.control().errors) return null;
+		console.log(this.control(), this.label());
+
 		return CustomValiationForm.message(this.control().errors!, this.label());
 	}
 }
