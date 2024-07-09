@@ -1,5 +1,14 @@
 <section class="button-container">
-	<label for="success" class="label">Your name</label>
-	<input [type]="inputType()" [placeholder]="placeholder()" />
-	<p class="help-text">Well done! Some success message.</p>
+	@if (label()) {
+		<label [for]="label()" class="label">{{ label() }}</label>
+	}
+	<input
+		[id]="label()"
+		[formControl]="control()"
+		[type]="inputType()"
+		[placeholder]="placeholder()"
+	/>
+	@if (invalidField) {
+		<p class="help-text">{{ errorMessage }}</p>
+	}
 </section>

@@ -1,1 +1,26 @@
-<p>new-product works!</p>
+<main
+	style="
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	"
+>
+	<h1>Formulario de registro</h1>
+	<hr style="width: 50%" />
+	<form
+		style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; width: 50%"
+	>
+		<app-input label="Logo" style="width: 100%" />
+		<app-input label="Nombre del producto" style="width: 100%" />
+		<app-input label="Descripción" style="width: 100%" />
+		<app-input label="Fecha de liberación" style="width: 100%" />
+		<app-input label="Fecha de reestructuración" style="width: 100%" />
+		<app-input label="Fecha de reestructuración" style="width: 100%" />
+	</form>
+	<section style="display: flex; justify-content: center; align-items: center; gap: 5rem">
+		<app-button label="Reiniciar" style="width: 100%" />
+		<app-button label="Enviar" style="width: 100%" />
+	</section>
+</main>

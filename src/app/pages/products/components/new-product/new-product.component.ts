@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { ButtonComponent, InputComponent } from '../../../../shared/components';
 
 @Component({
-  selector: 'app-new-product',
-  standalone: true,
-  imports: [],
-  templateUrl: './new-product.component.html',
-  styleUrl: './new-product.component.css'
+	selector: 'app-new-product',
+	standalone: true,
+	imports: [InputComponent, ButtonComponent],
+	templateUrl: './new-product.component.html',
+	styleUrl: './new-product.component.css'
 })
-export class NewProductComponent {
-
-}
+export class NewProductComponent {}
