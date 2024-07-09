@@ -7,8 +7,13 @@ export const routes: Routes = [
 		component: LayoutComponent,
 		children: [
 			{
+				path: 'product',
+				loadChildren: () => import('./pages/products/products.routes').then((m) => m.routes)
+			},
+			{
 				path: '',
-				loadChildren: () => import('./pages/financials/financials.routes').then((m) => m.routes)
+				redirectTo: 'product',
+				pathMatch: 'full'
 			}
 		]
 	},

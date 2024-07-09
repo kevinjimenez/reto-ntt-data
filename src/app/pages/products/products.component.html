@@ -1,0 +1,16 @@
+<main style="padding-inline: 1rem">
+	<header
+		style="
+			display: flex;
+			flex-direction: row;
+			gap: 1rem;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 0.5rem;
+		"
+	>
+		<app-input />
+		<app-button label="Add" (onClick)="onNewProduct()" />
+	</header>
+	<app-table />
+</main>

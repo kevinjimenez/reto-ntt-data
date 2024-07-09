@@ -1,0 +1,47 @@
+/* button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: #e8ebef;
+  border: 1px solid #d2d6dc;
+  border-radius: 0.25rem;
+}
+
+.primary:hover {
+  background-color: #b4b8bd;
+  border: 1px solid #b4b8bd;
+}
+
+.secundary {
+  background-color: #dddd06;
+  border: 1px solid #dddd06;
+  border-radius: 0.25rem;
+}
+
+.secundary:hover {
+  background-color: #dddd06d2;
+  border: 1px solid #dddd06d2;
+} */
+
+button {
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  margin-inline-end: 0.5rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}

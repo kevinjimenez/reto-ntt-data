@@ -1,0 +1,35 @@
+/* input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d2d6dc;
+  border-radius: 0.25rem;
+} */
+
+.button-container {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.button-container > .label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+.button-container > input {
+  display: block;
+  border-width: 1px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  padding: 0.625rem;
+}
+
+.help-text {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
