@@ -1,1 +1,5 @@
-<div class="logo">JG</div>
+@if (!hasError()) {
+	<img class="logo" [src]="path()" alt="__logo__" onerror="" (error)="setValue()" />
+} @else {
+	<div class="logo">LG</div>
+}

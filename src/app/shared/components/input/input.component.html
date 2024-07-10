@@ -3,12 +3,13 @@
 		<label [for]="label()" class="label">{{ label() }}</label>
 	}
 	<input
+		[ngClass]="{ invalid: invalidField }"
 		[id]="label()"
 		[formControl]="control()"
 		[type]="inputType()"
 		[placeholder]="placeholder()"
 	/>
 	@if (invalidField) {
-		<p class="help-text">{{ errorMessage }}</p>
+		<p class="error-text">{{ errorMessage }}</p>
 	}
 </section>

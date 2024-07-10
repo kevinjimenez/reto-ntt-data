@@ -1,11 +1,12 @@
 import { Component, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CustomValiationForm } from '../../../utils/custom-validation-form';
+import { NgClass } from '@angular/common';
 
 @Component({
 	selector: 'app-input',
 	standalone: true,
-	imports: [ReactiveFormsModule],
+	imports: [ReactiveFormsModule, NgClass],
 	templateUrl: './input.component.html',
 	styleUrl: './input.component.css'
 })

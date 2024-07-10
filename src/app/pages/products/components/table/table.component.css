@@ -1,14 +1,17 @@
+.table-wrapper {
+  overflow-x: auto;
+}
+
 .table-container {
 	margin: 0 auto;
-	/* background-color: #ffffff; */
-	background-color: red;
+  border: solid 1px #d2d6dc;
 	padding: 1rem;
 	border-radius: 0.5rem;
-	/* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 }
 
 table {
 	width: 100%;
+  min-width: 50%;
 	border-collapse: collapse;
 	margin-top: 1rem;
 	text-align: left;
@@ -37,7 +40,9 @@ th {
 }
 
 .table-footer select {
-	padding: 0.5rem;
+	padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-inline: 1rem;
 	border: 1px solid #d2d6dc;
 	border-radius: 0.25rem;
 }

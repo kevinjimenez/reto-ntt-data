@@ -19,16 +19,29 @@
 
 .button-container > input {
   display: block;
-  border-width: 1px;
+  border: solid 0.15rem #bdc3c7;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
   width: 90%;
   padding: 0.625rem;
+  outline: none;
+
 }
 
-.help-text {
+.button-container > input:focus {
+  border: solid 0.15rem #7f8c8d;
+}
+
+.invalid {
+  border: solid 0.15rem #e74c3c;
+}
+
+.error-text {
   margin-top: 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
+  color: #e74c3c;
 }
+
+

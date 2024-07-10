@@ -1,14 +1,10 @@
 .container {
-  background-color: none;
+  background-color: transparent;
 	border-radius: 0.2rem;
 	border: none;
 	display: flex;
 	align-items: center;
 	justify-content: center;
   cursor: pointer;
-}
-
-.container:hover {
-  background-color: yellow;
 }
 
