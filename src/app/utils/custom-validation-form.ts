@@ -1,5 +1,7 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import dayjs from 'dayjs';
+import { debounceTime, map } from 'rxjs';
+import { ProductsService } from '../core/services/products.service';
 
 const errorMessage: Record<string, string> = {
 	required: 'El campo {{label}} es requerido',
@@ -9,7 +11,8 @@ const errorMessage: Record<string, string> = {
 	minlength: 'El campo {{label}} debe tener minimo {{minlength}} caracteres',
 	maxlength: 'El campo {{label}} debe tener maximo {{maxlength}} caracteres',
 	currentDate: 'La fecha debe ser mayor o igual a la fecha actual',
-	dateNotOneYearLater: 'La fecha debe ser mayor o igual a la fecha actual + 1 año'
+	dateNotOneYearLater: 'La fecha debe ser mayor o igual a la fecha actual + 1 año',
+	exists: 'El ID ya existe'
 };
 
 export class CustomValiationForm {
@@ -55,5 +58,16 @@ export class CustomValiationForm {
 		}
 
 		return null;
+	}
+
+	static checkIdValidator(productService: ProductsService): AsyncValidatorFn {
+		return (control: AbstractControl) => {
+			console.log(control.value);
+
+			return productService.checkIdAvailable(control.value).pipe(
+				debounceTime(500),
+				map((result: boolean) => (result ? { exists: true } : null))
+			);
+		};
 	}
 }

@@ -1,16 +1,7 @@
-<main style="padding-inline: 1rem">
-	<header
-		style="
-			display: flex;
-			flex-direction: row;
-			gap: 1rem;
-			justify-content: space-between;
-			align-items: center;
-			margin-bottom: 0.5rem;
-		"
-	>
+<main class="container">
+	<header class="flex justify-between items-center flex-row gap-1 my-1">
 		<app-input [control]="fieldSearch" />
-		<app-button label="Add" (onClick)="onNewProduct()" />
+		<app-button label="Agregar" (onClick)="onNewProduct()" />
 	</header>
-	<app-table />
+	<app-table [products]="products()" (onRemoveItem)="onRemoveItem($event)" />
 </main>

@@ -2,65 +2,64 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Logo</th>
-				<th>Nombre del producto</th>
-				<th>Descripción <span class="info-icon" title="Product description info">ℹ️</span></th>
-				<th>Fecha de liberación <span class="info-icon" title="Release date info">ℹ️</span></th>
 				<th>
-					Fecha de reestructuración <span class="info-icon" title="Restructure date info">ℹ️</span>
+					<span class="flex justify-center items-center w-full gap-1/2"> Logo </span>
 				</th>
+				<th>
+					<span class="flex items-center w-full gap-1/2"> Nombre del producto </span>
+				</th>
+				<th>
+					<span class="flex items-center w-full gap-1/2"> Descripción <app-alert-circle /> </span>
+				</th>
+				<th>
+					<span class="flex items-center w-full gap-1/2">
+						Fecha de liberación <app-alert-circle />
+					</span>
+				</th>
+				<th>
+					<span class="flex items-center w-full gap-1/2">
+						Fecha de reestructuración <app-alert-circle />
+					</span>
+				</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>
-					<app-logo />
-				</td>
-				<td>Nombre del producto</td>
-				<td>Descripción</td>
-				<td>01/01/2000</td>
-				<td>01/01/2001</td>
-			</tr>
-			<tr>
-				<td>
-					<app-logo />
-				</td>
-				<td>Nombre del producto</td>
-				<td>Descripción</td>
-				<td>01/01/2000</td>
-				<td>01/01/2001</td>
-			</tr>
-			<tr>
-				<td>
-					<app-logo />
-				</td>
-				<td>Nombre del producto</td>
-				<td>Descripción</td>
-				<td>01/01/2000</td>
-				<td>01/01/2001</td>
-			</tr>
-			<tr>
-				<td>
-					<app-logo />
-				</td>
-				<td>Nombre del producto</td>
-				<td>Descripción</td>
-				<td>01/01/2000</td>
-				<td>01/01/2001</td>
-			</tr>
-			<tr>
-				<td>
-					<app-logo />
-				</td>
-				<td>Nombre del producto</td>
-				<td>Descripción</td>
-				<td>01/01/2000</td>
-				<td>01/01/2001</td>
-			</tr>
+			@if (products().length > 0) {
+				@for (product of products(); track $index) {
+					<tr>
+						<td>
+							<span class="flex justify-center items-center w-full">
+								<app-logo />
+							</span>
+						</td>
+						<td>{{ product.name }}</td>
+						<td>{{ product.description }}</td>
+						<td>{{ product.date_release }}</td>
+						<td>{{ product.date_revision }}</td>
+						<td>
+							<app-icon-button
+								icon="dots-vertical.svg"
+								(onClick)="showContextMenu($event, product)"
+							/>
+							<app-context-menu
+								[(isVisible)]="contextMenuVisible"
+								[(x)]="contextMenuX"
+								[(y)]="contextMenuY"
+								[(itemSelected)]="itemSelected"
+								(optionSelected)="optionSelected($event)"
+								[options]="contextMenuOptions()"
+							/>
+						</td>
+					</tr>
+				}
+			} @else {
+				sin datos
+			}
 		</tbody>
 	</table>
 	<footer class="table-footer">
-		<span>5 Resultados</span>
+		<span>{{ products().length }} Resultados</span>
 		<select>
 			<option value="5">5</option>
 			<option value="10">10</option>
@@ -68,3 +67,18 @@
 		</select>
 	</footer>
 </section>
+
+<app-overlay [(isVisible)]="overlayVisible">
+	<section class="contend-container">
+		¿Estás seguro de eliminar el producto
+		<span style="font-weight: 600">{{ itemSelected()?.name }}</span
+		>?
+	</section>
+	<footer>
+		<hr class="w-full" />
+		<section class="flex justify-center items-center gap-1 button-container">
+			<app-button label="Cancelar" (onClick)="overlayVisible.set(false)" />
+			<app-button label="Confirmar" (onClick)="onDelete()" />
+		</section>
+	</footer>
+</app-overlay>
