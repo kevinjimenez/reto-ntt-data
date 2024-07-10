@@ -13,14 +13,19 @@ import { CustomValiationForm } from '../../../../utils/custom-validation-form';
 export class NewProductComponent {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	public registerForm = this.formBuilder.group({
-		id: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
-		name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-		description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-		logo: ['', Validators.required],
-		date_release: ['', [Validators.required, CustomValiationForm.currentDateValidator]],
-		date_revision: ['', Validators.required]
-	});
+	public registerForm = this.formBuilder.group(
+		{
+			id: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+			name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+			description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
+			logo: ['', Validators.required],
+			date_release: ['', [Validators.required, CustomValiationForm.currentDateValidator]],
+			date_revision: ['', Validators.required]
+		},
+		{
+			validators: [CustomValiationForm.revisionDateValidator]
+		}
+	);
 
 	onSubmit() {
 		if (this.registerForm.valid) {

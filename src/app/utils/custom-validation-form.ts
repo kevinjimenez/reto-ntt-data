@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import dayjs from 'dayjs';
 
 const errorMessage: Record<string, string> = {
@@ -8,13 +8,12 @@ const errorMessage: Record<string, string> = {
 		'El campo {{label}} debe tener al menos una minuscula, mayuscula, número, caracter especial y longitud sea mayor o igual a 4',
 	minlength: 'El campo {{label}} debe tener minimo {{minlength}} caracteres',
 	maxlength: 'El campo {{label}} debe tener maximo {{maxlength}} caracteres',
-	currentDate: 'La fecha debe ser mayor o igual a la fecha actual'
+	currentDate: 'La fecha debe ser mayor o igual a la fecha actual',
+	dateNotOneYearLater: 'La fecha debe ser mayor o igual a la fecha actual + 1 año'
 };
 
 export class CustomValiationForm {
 	static message(errors: Record<string, string | object>, label?: string): string | null {
-		console.log({ errors });
-
 		for (const key in errors) {
 			if (Object.prototype.hasOwnProperty.call(errors!, key)) {
 				const msg = errorMessage[key];
@@ -32,7 +31,6 @@ export class CustomValiationForm {
 
 	static currentDateValidator(control: AbstractControl<string>): ValidationErrors | null {
 		const value = control.value;
-		console.log({ value });
 		const currentDate = dayjs();
 		const selectedDate = dayjs(value);
 		if (currentDate.isAfter(selectedDate) || currentDate.isSame(selectedDate)) {
@@ -40,5 +38,22 @@ export class CustomValiationForm {
 		} else {
 			return null;
 		}
+	}
+
+	static revisionDateValidator(control: AbstractControl): null {
+		const releaseDateControl = control.get('date_release');
+		const revisionDateControl = control.get('date_revision');
+
+		if (!releaseDateControl || !revisionDateControl) return null;
+
+		const releaseDate = releaseDateControl.value;
+		const revisionDate = revisionDateControl.value;
+
+		if (releaseDate && revisionDate) {
+			const isOneYearLater = dayjs(revisionDate).isSame(dayjs(releaseDate).add(1, 'year'), 'day');
+			if (!isOneYearLater) revisionDateControl.setErrors({ dateNotOneYearLater: true });
+		}
+
+		return null;
 	}
 }

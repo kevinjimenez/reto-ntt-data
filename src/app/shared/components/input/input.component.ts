@@ -24,7 +24,6 @@ export class InputComponent {
 
 	protected get errorMessage(): string | null {
 		if (!this.control() && !this.control().errors) return null;
-		console.log(this.control(), this.label());
 
 		return CustomValiationForm.message(this.control().errors!, this.label());
 	}
