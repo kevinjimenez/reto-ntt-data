@@ -19,7 +19,6 @@
 
 .button-container > input {
   display: block;
-  border: solid 0.15rem #bdc3c7;
   font-size: 0.875rem;
   line-height: 1.25rem;
   border-radius: 0.3rem;
@@ -37,11 +36,16 @@
   border: solid 0.15rem #e74c3c;
 }
 
+.valid {
+  border: solid 0.15rem #bdc3c7;
+}
+
 .error-text {
   margin-top: 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: #e74c3c;
 }
+
 
 

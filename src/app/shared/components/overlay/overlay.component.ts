@@ -9,8 +9,4 @@ import { Component, model } from '@angular/core';
 })
 export class OverlayComponent {
 	public isVisible = model<boolean>(false);
-
-	// close() {
-	// 	this.isVisible.update((prev) => !prev);
-	// }
 }

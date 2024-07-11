@@ -3,7 +3,7 @@
 		<label [for]="label()" class="label">{{ label() }}</label>
 	}
 	<input
-		[ngClass]="{ invalid: invalidField }"
+		[ngClass]="{ invalid: invalidField, valid: !invalidField }"
 		[id]="label()"
 		[formControl]="control()"
 		[type]="inputType()"
