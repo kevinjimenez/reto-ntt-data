@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { DefaultResponse } from '../../common/interfaces/default-response.interface';
 import { Product } from '../../common/interfaces/product.interface';
 
@@ -11,6 +11,7 @@ import { Product } from '../../common/interfaces/product.interface';
 export class ProductsService {
 	private readonly _httpClient = inject(HttpClient);
 
+	//! mejorar
 	getAll() {
 		const url = `${environment.apiUrl}/products`;
 		return this._httpClient.get<any>(url).pipe(

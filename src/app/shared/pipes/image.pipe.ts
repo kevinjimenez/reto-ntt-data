@@ -9,7 +9,6 @@ export class ImagePipe implements PipeTransform {
 		if (!filename) return '';
 		if (filename.includes('http')) return filename;
 		if (!folder) return `assets/${filename}`;
-		console.log(`assets/${folder}/${filename}`);
 
 		return `assets/${folder}/${filename}`;
 	}

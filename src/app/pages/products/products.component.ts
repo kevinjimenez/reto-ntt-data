@@ -2,9 +2,9 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
+import { Product } from '../../common/interfaces';
 import { ButtonComponent, InputComponent } from '../../shared/components';
 import { TableComponent } from './components/table/table.component';
-import { Product } from '../../common/interfaces/product.interface';
 
 @Component({
 	selector: 'app-products',
@@ -21,10 +21,12 @@ export class ProductsComponent implements OnInit {
 
 	public originalProducts = signal<Product[]>([]);
 	public cloneProducts = signal<Product[]>([]);
+	public take = signal<number>(5);
+
 	constructor() {
 		this.fieldSearch.valueChanges.pipe(debounceTime(500)).subscribe((search: string) => {
 			if (!search && search === '') {
-				this.cloneProducts.set(this.originalProducts().slice(0, 5)); // cambiar
+				this.cloneProducts.set(this.originalProducts().slice(0, this.take())); // cambiar
 				return;
 			}
 
@@ -38,12 +40,12 @@ export class ProductsComponent implements OnInit {
 	ngOnInit(): void {
 		this._activatedRoute.data.subscribe(({ products }) => {
 			this.originalProducts.set(products.data);
-			this.cloneProducts.set(products.data.slice(0, 5)); // cambiar
+			this.cloneProducts.set(products.data.slice(0, this.take())); // cambiar
 		});
 	}
 
 	onNewProduct(): void {
-		this._router.navigate(['home', 'product', 'new-product']);
+		this._router.navigate(['products', 'product']);
 	}
 
 	onRemoveItem(id: string): void {
@@ -54,6 +56,7 @@ export class ProductsComponent implements OnInit {
 	}
 
 	onViewItems(value: number): void {
+		this.take.update(() => value);
 		this.cloneProducts.update(() => this.originalProducts().slice(0, value));
 	}
 }

@@ -1,16 +1,20 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { CONTEXT_MENU_OPTIONS } from '../../../../common/constants/context-menu-options';
-import { Product } from '../../../../common/interfaces/product.interface';
-import { ProductsService } from '../../../../core/services/products.service';
-import { ButtonComponent, LogoComponent } from '../../../../shared/components';
-import { ContextMenuComponent } from '../../../../shared/components/context-menu/context-menu.component';
-import { ContextMenuOptionSelected } from '../../../../shared/components/context-menu/interfaces/context-menu-option-selected.interface';
-import { ContextMenuOption } from '../../../../shared/components/context-menu/interfaces/context-menu-option.interface';
-import { IconButtonComponent } from '../../../../shared/components/icon-button/icon-button.component';
-import { AlertCircleComponent } from '../../../../shared/components/icons/alert-circle/alert-circle.component';
-import { OverlayComponent } from '../../../../shared/components/overlay/overlay.component';
+import {
+	AlertCircleComponent,
+	ButtonComponent,
+	ContextMenuComponent,
+	ContextMenuOption,
+	ContextMenuOptionSelected,
+	IconButtonComponent,
+	LogoComponent,
+	OverlayComponent,
+	ToastComponent
+} from '../../../../shared/components';
 import { FormsModule } from '@angular/forms';
+import { ProductsService } from '../../../../core';
+import { Product } from '../../../../common/interfaces';
+import { CONTEXT_MENU_OPTIONS } from '../../../../common/constants';
 
 @Component({
 	selector: 'app-table',
@@ -22,7 +26,8 @@ import { FormsModule } from '@angular/forms';
 		OverlayComponent,
 		ContextMenuComponent,
 		ButtonComponent,
-		FormsModule
+		FormsModule,
+		ToastComponent
 	],
 	templateUrl: './table.component.html',
 	styleUrl: './table.component.css'
@@ -36,6 +41,8 @@ export class TableComponent {
 	public contextMenuY = signal<number>(0);
 	public contextMenuOptions = signal<ContextMenuOption[]>(CONTEXT_MENU_OPTIONS);
 	public itemSelected = signal<Product | null>(null);
+	public toastVisible = signal<boolean>(false);
+	public errorMsg = signal<string>('');
 
 	public selectedValue: string = '5';
 
@@ -66,24 +73,28 @@ export class TableComponent {
 		// update
 		if (optionSelected.option === 1) {
 			this.showOverlay();
-			this._router.navigate(['home', 'product', this.itemSelected()?.id], {
+			this._router.navigate(['products', 'product', this.itemSelected()?.id], {
 				state: { payload: this.itemSelected() }
 			});
 		}
 	}
 
 	public onDelete() {
-		this._productsService.deleteById(this.itemSelected()?.id || '').subscribe(() => {
-			// const newProducts = this.products().filter(
-			// 	(product) => product.id !== this.itemSelected()?.id
-			// );
-			this.onRemoveItem.emit(this.itemSelected()!.id);
-			this.overlayVisible.set(false);
+		this._productsService.deleteById(this.itemSelected()?.id || '').subscribe({
+			next: ({ message }) => {
+				this.onRemoveItem.emit(this.itemSelected()!.id);
+				this.overlayVisible.set(false);
+				this.errorMsg.set(message);
+				this.toastVisible.set(true);
+			},
+			error: (err) => {
+				this.errorMsg.set(err.error.message);
+				this.toastVisible.set(true);
+			}
 		});
 	}
 
 	public onSelectionChange(value: string) {
-		console.log('Selected value:', value);
 		this.onViewItems.emit(parseInt(value));
 	}
 }

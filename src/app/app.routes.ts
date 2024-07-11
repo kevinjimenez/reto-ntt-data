@@ -3,23 +3,23 @@ import { LayoutComponent } from './layout/layout.component';
 
 export const routes: Routes = [
 	{
-		path: 'home',
+		path: 'products',
 		component: LayoutComponent,
 		children: [
 			{
-				path: 'product',
+				path: '',
 				loadChildren: () => import('./pages/products/products.routes').then((m) => m.routes)
 			},
 			{
 				path: '',
-				redirectTo: 'product',
+				redirectTo: '',
 				pathMatch: 'full'
 			}
 		]
 	},
 	{
 		path: '',
-		redirectTo: 'home',
+		redirectTo: 'products',
 		pathMatch: 'full'
 	}
 	// {

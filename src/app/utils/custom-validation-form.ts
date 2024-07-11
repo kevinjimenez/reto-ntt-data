@@ -34,7 +34,7 @@ export class CustomValiationForm {
 
 	static currentDateValidator(control: AbstractControl<string>): ValidationErrors | null {
 		const value = control.value;
-		const currentDate = dayjs();
+		const currentDate = dayjs().subtract(1, 'day');
 		const selectedDate = dayjs(value);
 		if (currentDate.isAfter(selectedDate) || currentDate.isSame(selectedDate)) {
 			return { currentDate: true };
@@ -53,7 +53,10 @@ export class CustomValiationForm {
 		const revisionDate = revisionDateControl.value;
 
 		if (releaseDate && revisionDate) {
-			const isOneYearLater = dayjs(revisionDate).isSame(dayjs(releaseDate).add(1, 'year'), 'day');
+			const isOneYearLater = dayjs(revisionDate).isAfter(
+				dayjs(releaseDate).add(1, 'year').subtract(1, 'day'),
+				'day'
+			);
 			if (!isOneYearLater) revisionDateControl.setErrors({ dateNotOneYearLater: true });
 		}
 
@@ -62,8 +65,6 @@ export class CustomValiationForm {
 
 	static checkIdValidator(productService: ProductsService): AsyncValidatorFn {
 		return (control: AbstractControl) => {
-			console.log(control.value);
-
 			return productService.checkIdAvailable(control.value).pipe(
 				debounceTime(500),
 				map((result: boolean) => (result ? { exists: true } : null))

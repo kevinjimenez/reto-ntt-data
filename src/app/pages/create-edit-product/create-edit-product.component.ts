@@ -1,19 +1,19 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product } from '../../../../common/interfaces/product.interface';
-import { ProductsService } from '../../../../core/services/products.service';
-import { ButtonComponent, InputComponent } from '../../../../shared/components';
-import { CustomValiationForm } from '../../../../utils/custom-validation-form';
+import { ButtonComponent, InputComponent, ToastComponent } from '../../shared/components';
+import { ProductsService } from '../../core';
+import { Product } from '../../common/interfaces';
+import { CustomValiationForm } from '../../utils';
 
 @Component({
-	selector: 'app-new-product',
+	selector: 'app-create-edit-product',
 	standalone: true,
-	imports: [InputComponent, ButtonComponent, ReactiveFormsModule],
-	templateUrl: './new-product.component.html',
-	styleUrl: './new-product.component.css'
+	imports: [InputComponent, ButtonComponent, ReactiveFormsModule, ToastComponent],
+	templateUrl: './create-edit-product.component.html',
+	styleUrl: './create-edit-product.component.css'
 })
-export class NewProductComponent implements OnInit {
+export class CreateEditProductComponent implements OnInit {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 	private readonly _productsService = inject(ProductsService);
 	private readonly _router = inject(Router);
@@ -21,6 +21,8 @@ export class NewProductComponent implements OnInit {
 
 	public payloadEdit = signal<Product | null>(null);
 	public id = signal<string | null>(null);
+	public toastVisible = signal<boolean>(false);
+	public errorMsg = signal<string>('');
 
 	public registerForm = this.formBuilder.group(
 		{
@@ -82,14 +84,29 @@ export class NewProductComponent implements OnInit {
 			};
 			if (this.id() && this.payloadEdit()) {
 				const { id, ...updateProduct } = newProduct;
-				this._productsService.updateById(this.id()!, updateProduct).subscribe(() => {
-					this.onReset();
-					this._router.navigate(['home']);
+				this._productsService.updateById(this.id()!, updateProduct).subscribe({
+					next: ({ message }) => {
+						this.errorMsg.set(message);
+						this.toastVisible.set(true);
+						// this.onReset();
+					},
+					error: (err) => {
+						this.errorMsg.set(err.error.message);
+						this.toastVisible.set(true);
+					}
 				});
 			} else {
-				this._productsService.create(newProduct as Product).subscribe(() => {
-					this.onReset();
-					this._router.navigate(['home']);
+				this._productsService.create(newProduct as Product).subscribe({
+					next: ({ message }) => {
+						this.errorMsg.set(message);
+						this.toastVisible.set(true);
+						this.onReset();
+						// this._router.navigate(['products']);
+					},
+					error: (err) => {
+						this.errorMsg.set(err.error.message);
+						this.toastVisible.set(true);
+					}
 				});
 			}
 		} else {
@@ -102,19 +119,6 @@ export class NewProductComponent implements OnInit {
 	}
 
 	onCancel() {
-		this._router.navigate(['home']);
+		this._router.navigate(['products']);
 	}
-
-	// @HostListener('window:beforeunload', ['$event'])
-	// onBeforeUnload(event: Event) {
-	// 	// Tu lógica aquí
-	// 	console.log('La página se está recargando o cerrando. Ejecutar acciones necesarias.');
-	// 	// Por ejemplo, guardar estado o notificar al usuario
-	// 	// if (this.payloadEdit()) {
-	// 	// 	// event.preventDefault(); // Necesario para mostrar un mensaje personalizado (se usará por defecto)
-	// 	// 	this._router.navigate(['home']);
-	// 	// }
-
-	// 	// event.preventDefault(); // Necesario para mostrar un mensaje personalizado (se usará por defecto)
-	// }
 }

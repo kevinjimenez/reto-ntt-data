@@ -1,5 +1,7 @@
+<app-toast [(isShow)]="toastVisible" [text]="errorMsg()" />
+
 <main class="w-full flex justify-center items-center flex-col">
-	<h1>Formulario de registro</h1>
+	<h1>Formulario de {{ this.id() ? 'actualización' : 'registro' }}</h1>
 	<hr class="w-1/2" />
 	<form
 		[formGroup]="registerForm"
